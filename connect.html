@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Together — Dancing Village Partners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1c2b38;--navy-mid:#243342;--navy-soft:#2c3d4e;
+  --sage-white:#eef2ee;--sage-pale:#e4ebe5;--white:#ffffff;
+  --lime:#b8cc2a;--sage:#4a9e78;--teal:#2b90a4;--teal-deep:#1c7a8a;--steel:#6899b8;
+  --ink:#1c2b38;--ink-mid:#3a5060;--ink-muted:#668090;
+  --od:rgba(238,242,238,1);--od-mid:rgba(238,242,238,0.68);--od-dim:rgba(238,242,238,0.38);--od-sub:rgba(238,242,238,0.1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--navy);color:var(--od);overflow-x:hidden;cursor:none}
+#cur,#cur-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
+#cur{width:9px;height:9px;background:var(--lime);mix-blend-mode:screen;transition:width .25s,height .25s,background .3s}
+#cur-ring{width:34px;height:34px;border:1px solid rgba(43,144,164,0.45);transition:width .3s,height .3s}
+#cur.hov{width:18px;height:18px;background:var(--sage)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:26px 64px;display:flex;justify-content:space-between;align-items:center}
+nav::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(28,43,56,0.96) 0%,transparent 100%);backdrop-filter:blur(4px)}
+.nav-logo{position:relative;z-index:1;display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-i{width:26px;height:30px;flex-shrink:0}
+.nav-wordmark{font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--od)}
+.nav-links{position:relative;z-index:1;display:flex;gap:44px;list-style:none}
+.nav-links a{font-size:11px;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--od-dim);text-decoration:none;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--teal);transition:width .3s ease}
+.nav-links a:hover{color:var(--od)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{color:var(--teal)!important}
+
+/* HERO — full navy with big venn */
+.connect-hero{
+  min-height:100vh;
+  padding:140px 64px 80px;
+  position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+}
+#cc{position:absolute;inset:0;width:100%;height:100%;opacity:.4}
+.connect-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 30%,rgba(28,43,56,.5) 100%);pointer-events:none}
+
+.ch-left{position:relative;z-index:2}
+.ch-left .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:28px;opacity:0;animation:up .9s .1s ease forwards}
+.eyebrow-bar{width:26px;height:1px;background:var(--lime)}
+.eyebrow-text{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--lime)}
+.ch-left h1{font-family:'Cormorant Garamond',serif;font-size:clamp(50px,6vw,80px);font-weight:300;line-height:1.05;color:var(--od);margin-bottom:30px;opacity:0;animation:up .9s .3s ease forwards}
+.ch-left h1 em{font-style:italic;color:var(--teal)}
+.ch-left p{font-size:16px;line-height:1.9;color:var(--od-mid);font-weight:300;max-width:480px;opacity:0;animation:up .9s .5s ease forwards}
+
+.ch-right{position:relative;z-index:2;opacity:0;animation:up .9s .4s ease forwards}
+.contact-card{
+  background:rgba(238,242,238,0.04);
+  border:1px solid rgba(238,242,238,0.1);
+  padding:56px;
+}
+.contact-card h2{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--od);margin-bottom:8px}
+.contact-card .sub{font-size:13px;color:var(--od-dim);margin-bottom:40px;font-weight:300}
+.form-field{margin-bottom:18px}
+.form-field label{display:block;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--od-dim);margin-bottom:7px}
+.form-field input,.form-field textarea{width:100%;background:rgba(238,242,238,0.04);border:1px solid rgba(238,242,238,0.1);padding:13px 15px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;color:var(--od);outline:none;transition:border-color .25s}
+.form-field input::placeholder,.form-field textarea::placeholder{color:var(--od-dim)}
+.form-field input:focus,.form-field textarea:focus{border-color:var(--teal)}
+.form-field textarea{min-height:100px;resize:vertical}
+.form-field select{width:100%;background:rgba(238,242,238,0.04);border:1px solid rgba(238,242,238,0.1);padding:13px 15px;font-family:'Outfit',sans-serif;font-size:14px;font-weight:300;color:var(--od);outline:none;appearance:none;transition:border-color .25s;cursor:pointer}
+.form-field select:focus{border-color:var(--teal)}
+.form-field select option{background:var(--navy);color:var(--od)}
+.form-submit{width:100%;background:var(--teal);color:white;border:none;padding:15px;font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:background .25s;margin-top:8px}
+.form-submit:hover{background:var(--teal-deep)}
+
+/* FAQ — navy-mid */
+.faq-sec{background:var(--navy-mid);padding:120px 64px}
+.faq-inner{max-width:900px;margin:0 auto}
+.faq-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.faq-eyebrow .eyebrow-bar{background:var(--sage)}
+.faq-eyebrow .eyebrow-text{color:var(--sage)}
+.faq-sec h2{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,3.2vw,50px);font-weight:300;line-height:1.15;color:var(--od);margin-bottom:64px}
+.faq-sec h2 em{font-style:italic;color:var(--sage)}
+
+.faq-item{
+  border-bottom:1px solid rgba(238,242,238,.08);
+  padding:36px 0;
+  cursor:pointer;
+}
+.faq-item:first-of-type{border-top:1px solid rgba(238,242,238,.08)}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:400;line-height:1.3;
+  color:var(--od);
+}
+.faq-arrow{
+  font-size:18px;color:var(--teal);flex-shrink:0;margin-left:24px;
+  transition:transform .3s ease;
+}
+.faq-item.open .faq-arrow{transform:rotate(45deg)}
+.faq-a{
+  font-size:15px;line-height:1.85;color:var(--od-mid);font-weight:300;
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease,padding .3s ease;
+}
+.faq-item.open .faq-a{max-height:300px;padding-top:20px}
+
+/* OTHER WAYS — sage-white + dark col */
+.other-sec{background:var(--sage-white);padding:100px 64px}
+.other-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.other-block{
+  background:var(--white);
+  padding:52px 44px;
+  position:relative;overflow:hidden;
+  transition:transform .3s;
+}
+.other-block:hover{transform:translateY(-4px)}
+.other-block::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--sage));transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.other-block:hover::after{transform:scaleX(1)}
+.ob-tag{font-size:9px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:14px}
+.other-block h3{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--ink);margin-bottom:12px}
+.other-block p{font-size:14px;line-height:1.8;color:var(--ink-muted);font-weight:300;margin-bottom:20px}
+.other-block a{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:gap .25s}
+.other-block a:hover{gap:10px}
+
+footer{background:var(--navy);border-top:1px solid rgba(238,242,238,.06);padding:40px 64px;display:flex;justify-content:space-between;align-items:center}
+.ft-brand{display:flex;align-items:center;gap:12px}
+.ft-name{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--od-mid)}
+footer span,footer a{font-size:11px;color:var(--od-dim);text-decoration:none;letter-spacing:.04em}
+footer a:hover{color:var(--teal)}
+
+@keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.12s}.d2{transition-delay:.24s}
+</style>
+</head>
+<body>
+<div id="cur"></div><div id="cur-ring"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg class="nav-i" viewBox="0 0 26 30" fill="none">
+      <circle cx="13" cy="5" r="4.5" fill="#6899b8" opacity="0.9"/>
+      <path d="M10 13 Q10 28 13 28 Q16 28 16 13 Q16 11 13 11 Q10 11 10 13Z" fill="#2b90a4" opacity="0.9"/>
+      <circle cx="2.5" cy="15" r="1.4" fill="#b8cc2a" opacity="0.75"/>
+      <circle cx="4" cy="23" r="1.1" fill="#4a9e78" opacity="0.65"/>
+      <circle cx="13" cy="27.5" r="1" fill="#4a9e78" opacity="0.5"/>
+      <circle cx="22" cy="23" r="1.1" fill="#2b90a4" opacity="0.65"/>
+      <circle cx="23.5" cy="15" r="1.4" fill="#2b90a4" opacity="0.75"/>
+    </svg>
+    <span class="nav-wordmark">Dancing Village</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="howwework.html">How I Work</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="connect.html" class="nav-cta" style="color:var(--od)!important">Work Together</a></li>
+  </ul>
+</nav>
+
+<div class="connect-hero">
+  <canvas id="cc"></canvas>
+  <div class="ch-left">
+    <div class="eyebrow"><span class="eyebrow-bar"></span><span class="eyebrow-text">Work Together</span></div>
+    <h1>Let's find<br>the right<br><em>next step.</em></h1>
+    <p>Tell me what you're building and what you're hoping to achieve. If it sounds like a fit, I'll share exactly how I'd approach it — no obligation.</p>
+  </div>
+  <div class="ch-right">
+    <div class="contact-card">
+      <h2>Let's talk.</h2>
+      <p class="sub">I read every message personally.</p>
+      <div class="form-field"><label>Your name</label><input type="text" placeholder="First and last name"></div>
+      <div class="form-field"><label>Email</label><input type="email" placeholder="you@organization.org"></div>
+      <div class="form-field"><label>Organization</label><input type="text" placeholder="Your organization's name"></div>
+      <div class="form-field">
+        <label>What kind of help are you looking for?</label>
+        <select>
+          <option value="" disabled selected>Select one...</option>
+          <option>Strategy & positioning</option>
+          <option>Finding corporate partners</option>
+          <option>Deal structure & negotiation</option>
+          <option>A thought partner / advisory relationship</option>
+          <option>Not sure yet — I want to talk it through</option>
+        </select>
+      </div>
+      <div class="form-field"><label>Tell me more</label><textarea placeholder="What's the initiative, and where are you currently stuck?"></textarea></div>
+      <button class="form-submit">Send a note →</button>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-sec">
+  <div class="faq-inner">
+    <div class="faq-eyebrow reveal">
+      <span class="eyebrow-bar"></span><span class="eyebrow-text">Good questions</span>
+    </div>
+    <h2 class="reveal">Things people <em>usually ask.</em></h2>
+
+    <div class="faq-item reveal">
+      <div class="faq-q">Who does Dancing Village work with?<span class="faq-arrow">+</span></div>
+      <p class="faq-a">Nonprofits, media companies, cultural institutions, mission-led businesses, and purpose-driven founders — any organization with a meaningful initiative that needs corporate partners and funding behind it. What matters more than sector or size is whether the mission is real and the leadership is ready to commit to the work.</p>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">What does an engagement typically look like?<span class="faq-arrow">+</span></div>
+      <p class="faq-a">Every engagement is different, because every organization's needs are different. Some clients need a strategy sprint of a few weeks; others need an ongoing partner for a year or more. We always start with a conversation to figure out what fits your situation — and I come back with a concrete scope and fee before anything begins.</p>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">Do you work on commission or retainer?<span class="faq-arrow">+</span></div>
+      <p class="faq-a">Primarily on project fees or retainer, depending on the scope and nature of the work. I don't take commissions on deals I close — I find that structure creates the wrong incentives and can compromise the relationships I'm building on your behalf. Transparency around compensation is important to me.</p>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">Can you work with small organizations?<span class="faq-arrow">+</span></div>
+      <p class="faq-a">Yes — organizational size is less important than mission clarity and readiness. Some of the most impactful partnerships I've helped build were for smaller organizations with very focused missions. That said, I do need you to be serious about the investment of time, trust, and resources that this kind of work requires.</p>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">What if I'm not sure I'm ready?<span class="faq-arrow">+</span></div>
+      <p class="faq-a">Reach out anyway. Part of what we do in a first conversation is figure out whether the timing is right. Sometimes organizations aren't quite ready to go to market — and the most valuable thing I can do is help you understand what needs to happen first. That's a useful conversation regardless of whether we work together.</p>
+    </div>
+  </div>
+</div>
+
+<!-- OTHER WAYS -->
+<div class="other-sec">
+  <div class="other-inner">
+    <div class="other-block reveal">
+      <p class="ob-tag">Connect on LinkedIn</p>
+      <h3>Follow along</h3>
+      <p>Tammy shares thinking on corporate partnerships, mission-driven organizations, and the intersection of commerce and purpose.</p>
+      <a href="https://linkedin.com/in/tammyabordeaux" target="_blank">Visit LinkedIn →</a>
+    </div>
+    <div class="other-block reveal d1">
+      <p class="ob-tag">Not sure yet?</p>
+      <h3>Read about how it works</h3>
+      <p>If you're not sure whether Dancing Village is the right fit, the How I Work page walks through the approach, the services, and what a typical engagement looks like.</p>
+      <a href="howwework.html">See how I work →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="ft-brand">
+    <svg width="22" height="26" viewBox="0 0 26 30" fill="none">
+      <circle cx="13" cy="5" r="4.5" fill="#6899b8" opacity="0.6"/>
+      <path d="M10 13 Q10 28 13 28 Q16 28 16 13 Q16 11 13 11 Q10 11 10 13Z" fill="#2b90a4" opacity="0.6"/>
+      <circle cx="2.5" cy="15" r="1.4" fill="#b8cc2a" opacity="0.5"/>
+      <circle cx="4" cy="23" r="1.1" fill="#4a9e78" opacity="0.4"/>
+      <circle cx="22" cy="23" r="1.1" fill="#2b90a4" opacity="0.4"/>
+      <circle cx="23.5" cy="15" r="1.4" fill="#2b90a4" opacity="0.5"/>
+    </svg>
+    <span class="ft-name">Dancing Village Partners</span>
+  </div>
+  <span>© 2025 Tammy Abraham Bordeaux · New York</span>
+  <a href="https://linkedin.com/in/tammyabordeaux">LinkedIn ↗</a>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function raf(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf);})();
+document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>cur.classList.add('hov'));el.addEventListener('mouseleave',()=>cur.classList.remove('hov'));});
+// hero canvas
+const cv=document.getElementById('cc'),ctx=cv.getContext('2d');
+function rsz(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;}rsz();window.addEventListener('resize',rsz);
+const rs=[{ox:.25,oy:.45,r:.2,col:'#b8cc2a',spd:.00014,ph:0},{ox:.75,oy:.55,r:.22,col:'#2b90a4',spd:-.00016,ph:2.5},{ox:.5,oy:.3,r:.16,col:'#4a9e78',spd:.00012,ph:4},{ox:.15,oy:.7,r:.14,col:'#6899b8',spd:-.0001,ph:1.2},{ox:.85,oy:.25,r:.18,col:'#b8cc2a',spd:.00013,ph:3.1}];
+let t=0;function draw(){ctx.clearRect(0,0,cv.width,cv.height);const W=cv.width,H=cv.height,S=Math.min(W,H);rs.forEach(r=>{const n=56,br=1+.03*Math.sin(t*.0006+r.ph);for(let i=0;i<n;i++){const a=(i/n)*Math.PI*2+t*r.spd*1000;const x=r.ox*W+Math.cos(a)*r.r*S*br;const y=r.oy*H+Math.sin(a)*r.r*S*br;const al=.18+.18*Math.sin(a*2+t*.001+r.ph);ctx.beginPath();ctx.arc(x,y,1.8,0,Math.PI*2);ctx.fillStyle=r.col+Math.round(al*255).toString(16).padStart(2,'0');ctx.fill();}});t++;requestAnimationFrame(draw);}draw();
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item=>{
+  item.addEventListener('click',()=>{
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
